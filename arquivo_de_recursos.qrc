@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>1.jpeg</file>
+        <file>3.jpg</file>
+        <file>2.jpeg</file>
+        <file>logo.png</file>
+    </qresource>
+    <qresource prefix="/audi">
+        <file>acoustic-folk-acoustic-guitar-138361.mp3</file>
+    </qresource>
+</RCC>
