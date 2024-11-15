@@ -7,6 +7,9 @@
 #include <QDesktopServices>
 #include <QMediaPlayer>
 #include <QUrl>
+#include <QDebug>
+#include <QSerialPort>
+#include <QSerialPortInfo>
 
 
 
@@ -16,6 +19,29 @@ MainWindow::MainWindow(QWidget *parent)
     , player(new QMediaPlayer(this))  // Inicializa player como membro da classe
 {
     ui->setupUi(this);
+
+    // Inicializa a porta serial
+    serial = new QSerialPort(this);
+
+    // Configuração dos parâmetros da porta serial
+    serial->setPortName("/dev/ttyACM0");           // Substitua "COM3" pelo nome da porta no seu sistema
+    serial->setBaudRate(QSerialPort::Baud9600);  // Taxa de transmissão
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
+
+    // Tentando abrir a porta:
+    if (!serial->open(QIODevice::ReadWrite)) {
+        qDebug() << "Erro ao abrir a porta serial:" << serial->errorString();
+    } else {
+        qDebug() << "Conexão serial estabelecida!";
+    }
+
+    // Conecta o sinal de leitura de dados:
+    //connect(serial, &QSerialPort::readyRead, this, &MainWindow::readSerialData);
+
+
 
 
 
@@ -56,8 +82,15 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
+
+//DESTRUTOR
 MainWindow::~MainWindow()
 {
+    //Para fechar a conecção serial:
+    if (serial->isOpen()) {
+        serial->close();
+    }
+
     delete ui;
 }
 
@@ -170,32 +203,37 @@ void MainWindow::on_parar_musica_pushButton_clicked()
 
 
 //PARTE PARA CONTROLAR OS EQUIPAMENTOS:
-// Variáveis para armazenar o estado
+// Variáveis para armazenar os estados
 bool ledEstado = false;
 bool fanEstado = false;
 
 void MainWindow::on_ligarLED_pushButton_clicked()
 {
-    // Alternar o estado do LED
+    // Muda  o estado do LED
     ledEstado = !ledEstado;
 
-    // Alterar o texto do botão com base no estado
+    // Muda o texto do botão com base no estado
     if (ledEstado) {
         ui->ligarLED_pushButton->setText("Desligar");
+        serial->write("1");  // Envia comando '1' para mudar o estado do LED
     } else {
         ui->ligarLED_pushButton->setText("Ligar");
+        serial->write("1");  // Envia comando '1' para mudar o estado do LED novamente
     }
 }
 
 void MainWindow::on_ligarFAN_pushButton_clicked()
 {
-    // Alternar o estado do FAN
+    // Muda o estado da FAN
     fanEstado = !fanEstado;
 
-    // Alterar o texto do botão com base no estado
+    // Muda o texto do botão com base no estado
     if (fanEstado) {
         ui->ligarFAN_pushButton->setText("Desligar");
+        serial->write("2");  // Envia comando '2' para mudar o estado da fan
     } else {
         ui->ligarFAN_pushButton->setText("Ligar");
+        serial->write("2");  // Envia comando '2' para mudar o estado da ventilador novamente
     }
 }
+

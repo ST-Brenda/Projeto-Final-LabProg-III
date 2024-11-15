@@ -288,6 +288,9 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
             <height>50</height>
            </size>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
     font: 11pt &quot;Tibetan Machine Uni&quot;;
@@ -419,6 +422,9 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
             <height>50</height>
            </size>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
     font: 11pt &quot;Tibetan Machine Uni&quot;;
@@ -484,6 +490,9 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
               <height>50</height>
              </size>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPushButton {
     font: 11pt &quot;Tibetan Machine Uni&quot;;
@@ -506,6 +515,9 @@ QPushButton:hover {
           </item>
           <item row="1" column="1">
            <widget class="QPushButton" name="ligarFAN_pushButton">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPushButton {
     font: 11pt &quot;Tibetan Machine Uni&quot;;

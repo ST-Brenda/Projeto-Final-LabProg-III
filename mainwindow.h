@@ -17,6 +17,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    // Método para obter acesso ao QSerialPort
+    QSerialPort* getSerialPort();
+    void readSerialData();
+
 private slots:
 
     void paintEvent(QPaintEvent *event);
@@ -44,5 +48,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QMediaPlayer* player;
+    QSerialPort *serial;    // Objeto para manipular a porta serial
 };
 #endif // MAINWINDOW_H
