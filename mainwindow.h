@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMediaPlayer>
+#include <QtSerialPort>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,9 +37,12 @@ private slots:
 
     void on_parar_musica_pushButton_clicked();
 
+    void on_ligarLED_pushButton_clicked();
+
+    void on_ligarFAN_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMediaPlayer* player;
-
 };
 #endif // MAINWINDOW_H

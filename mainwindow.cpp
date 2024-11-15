@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "sobredialog.h"
+
 #include <QPainter>
 #include <QPixmap>
 #include <QDesktopServices>
@@ -16,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+
+
+    //PARA ALGUMAS PERSONALIZAÇÕES:
     // Personalizar a menu bar com setStyleSheet usando RGB
     ui->menubar->setStyleSheet("QMenuBar { background-color: rgb(165, 160, 166); color: red; }"
                                "QMenuBar::item { background-color: rgb(165, 160, 166); color: black; }"
@@ -30,24 +34,31 @@ MainWindow::MainWindow(QWidget *parent)
                                "}");
 
 
+
+
+    //PARA ESCOLDER OPÇÕES A MENU BAR
     connect(ui->stackedWidget, &QStackedWidget::currentChanged, this, &MainWindow::atualizarMenu);
 
     // Chamada inicial para configurar a visibilidade dos elementos do menu ao iniciar a aplicação
     atualizarMenu(ui->stackedWidget->currentIndex());
 
 
-    // Pra tocar a música quando abrir o app:
+
+
+
+    // PARA TOCAR MÚSICA QUANDO ABRIR O APP:
     player = new QMediaPlayer(this);
     player->setMedia(QUrl("qrc:/audi/acoustic-folk-acoustic-guitar-138361.mp3"));
     player->setVolume(20);  // Define o volume para 50% (opcional)
     player->play();  // Inicia a reprodução da música
+
+
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-
 }
 
 
@@ -124,10 +135,6 @@ void MainWindow::atualizarMenu(int paginaAtual)
 
 
 
-
-
-
-
 //INSTALAR:
 //sudo apt-get install qt5-qtmultimedia
 //sudo apt-get install qtmultimedia5-dev
@@ -147,5 +154,48 @@ void MainWindow::on_parar_musica_pushButton_clicked()
     } else {
         player->play();
         ui->parar_musica_pushButton->setText(pauseIcon + " Música");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//PARTE PARA CONTROLAR OS EQUIPAMENTOS:
+// Variáveis para armazenar o estado
+bool ledEstado = false;
+bool fanEstado = false;
+
+void MainWindow::on_ligarLED_pushButton_clicked()
+{
+    // Alternar o estado do LED
+    ledEstado = !ledEstado;
+
+    // Alterar o texto do botão com base no estado
+    if (ledEstado) {
+        ui->ligarLED_pushButton->setText("Desligar");
+    } else {
+        ui->ligarLED_pushButton->setText("Ligar");
+    }
+}
+
+void MainWindow::on_ligarFAN_pushButton_clicked()
+{
+    // Alternar o estado do FAN
+    fanEstado = !fanEstado;
+
+    // Alterar o texto do botão com base no estado
+    if (fanEstado) {
+        ui->ligarFAN_pushButton->setText("Desligar");
+    } else {
+        ui->ligarFAN_pushButton->setText("Ligar");
     }
 }

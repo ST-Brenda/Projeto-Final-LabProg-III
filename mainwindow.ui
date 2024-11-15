@@ -39,6 +39,33 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="parar_musica_pushButton">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    font: 11pt &quot;Tibetan Machine Uni&quot;;
+    border-radius: 10px;       /* Bordas arredondadas */
+    background-color: rgb(255, 255, 255); /* Fundo semi-transparente */
+	border: 1px solid rgb(0,0,0);
+}
+
+/* Efeito de escurecimento ao passar o mouse */
+QPushButton:hover {
+    background-color: rgba(225, 225, 225, 0.7); /* Cor mais escura ao passar o mouse */
+}
+</string>
+      </property>
+      <property name="text">
+       <string>⏸️ Música</string>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="sizePolicy">
@@ -51,7 +78,7 @@
        <locale language="Portuguese" country="Brazil"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_1">
        <layout class="QGridLayout" name="gridLayout">
@@ -344,16 +371,43 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
       </widget>
       <widget class="QWidget" name="page_3">
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="4" column="4">
-         <widget class="QSlider" name="verticalSlider_2">
-          <property name="maximumSize">
+        <item row="1" column="0">
+         <widget class="Line" name="line_4">
+          <property name="minimumSize">
            <size>
-            <width>50</width>
-            <height>300</height>
+            <width>1000</width>
+            <height>0</height>
            </size>
           </property>
           <property name="orientation">
-           <enum>Qt::Vertical</enum>
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>150</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 30pt &quot;Tibetan Machine Uni&quot;;
+border-radius: 10px;       /* Bordas arredondadas */
+padding: 5px;              /* Espaço interno */
+background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
+
+</string>
+          </property>
+          <property name="text">
+           <string>Aqui você pode controlar os equipamentos:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -385,171 +439,57 @@ QPushButton:hover {
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QSlider" name="verticalSlider_3">
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>300</height>
-           </size>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_5">
-          <property name="minimumSize">
-           <size>
-            <width>70</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>70</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 11pt &quot;Tibetan Machine Uni&quot;;
-border-radius: 10px;       /* Bordas arredondadas */
-padding: 5px;              /* Espaço interno */
-background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</string>
-          </property>
-          <property name="text">
-           <string>Led</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>150</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 30pt &quot;Tibetan Machine Uni&quot;;
-border-radius: 10px;       /* Bordas arredondadas */
-padding: 5px;              /* Espaço interno */
-background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
-
-</string>
-          </property>
-          <property name="text">
-           <string>Aqui você pode controlar os equipamentos:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QSlider" name="verticalSlider_4">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>300</height>
-           </size>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="Line" name="line_4">
-          <property name="minimumSize">
-           <size>
-            <width>1000</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="3">
-         <widget class="QSlider" name="verticalSlider">
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>300</height>
-           </size>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="label_4">
-          <property name="minimumSize">
-           <size>
-            <width>70</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>70</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 11pt &quot;Tibetan Machine Uni&quot;;
-border-radius: 10px;       /* Bordas arredondadas */
-padding: 5px;              /* Espaço interno */
-background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</string>
-          </property>
-          <property name="text">
-           <string>Fan</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
+        <item row="4" column="0">
          <widget class="Line" name="line">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="parar_musica_pushButton">
-      <property name="maximumSize">
-       <size>
-        <width>200</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
+        <item row="5" column="0" rowspan="2">
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>70</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Tibetan Machine Uni&quot;;
+border-radius: 10px;       /* Bordas arredondadas */
+padding: 5px;              /* Espaço interno */
+background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</string>
+            </property>
+            <property name="text">
+             <string>Fan</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="ligarLED_pushButton">
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
     font: 11pt &quot;Tibetan Machine Uni&quot;;
     border-radius: 10px;       /* Bordas arredondadas */
-    background-color: rgb(255, 255, 255); /* Fundo semi-transparente */
+    padding: 5px;              /* Espaço interno */
+    background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
 	border: 1px solid rgb(0,0,0);
 }
 
@@ -558,10 +498,66 @@ QPushButton:hover {
     background-color: rgba(225, 225, 225, 0.7); /* Cor mais escura ao passar o mouse */
 }
 </string>
-      </property>
-      <property name="text">
-       <string>⏸️ Música</string>
-      </property>
+            </property>
+            <property name="text">
+             <string>Ligar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QPushButton" name="ligarFAN_pushButton">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    font: 11pt &quot;Tibetan Machine Uni&quot;;
+    border-radius: 10px;       /* Bordas arredondadas */
+    padding: 5px;              /* Espaço interno */
+    background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
+	border: 1px solid rgb(0,0,0);
+}
+
+/* Efeito de escurecimento ao passar o mouse */
+QPushButton:hover {
+    background-color: rgba(225, 225, 225, 0.7); /* Cor mais escura ao passar o mouse */
+}
+</string>
+            </property>
+            <property name="text">
+             <string>Ligar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>70</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Tibetan Machine Uni&quot;;
+border-radius: 10px;       /* Bordas arredondadas */
+padding: 5px;              /* Espaço interno */
+background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</string>
+            </property>
+            <property name="text">
+             <string>Led</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
