@@ -128,6 +128,14 @@ void MainWindow::atualizarMenu(int paginaAtual)
 
 
 
+//INSTALAR:
+//sudo apt-get install qt5-qtmultimedia
+//sudo apt-get install qtmultimedia5-dev
+//sudo apt-get install libqt5multimedia5 libqt5multimedia5-plugins libqt5multimediaquick5
+//sudo apt-get install gstreamer1.0-libav gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
+
+
+
 // PARA PAUSAR A MÚSICA:
 void MainWindow::on_parar_musica_pushButton_clicked()
 {
