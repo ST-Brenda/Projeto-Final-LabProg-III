@@ -78,7 +78,7 @@ QPushButton:hover {
        <locale language="Portuguese" country="Brazil"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_1">
        <layout class="QGridLayout" name="gridLayout">
@@ -273,26 +273,93 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
        </layout>
       </widget>
       <widget class="QWidget" name="page_2">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QPushButton" name="pag_anterior2_pushButton">
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="1" column="0">
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="1" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+           <widget class="QLabel" name="status_rfid_label">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Tibetan Machine Uni</family>
+              <pointsize>20</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Tibetan Machine Uni&quot;;
+border-radius: 10px;       /* Bordas arredondadas */
+padding: 5px;              /* Espaço interno */
+background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</string>
+            </property>
+            <property name="text">
+             <string>AGUARDANDO LEITURA</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+           <widget class="QLabel" name="label">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Tibetan Machine Uni</family>
+              <pointsize>20</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Tibetan Machine Uni&quot;;
+border-radius: 10px;       /* Bordas arredondadas */
+padding: 5px;              /* Espaço interno */
+background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</string>
+            </property>
+            <property name="text">
+             <string>PASSE SEU CARTÃO PARA LIBERAR O ACESSO!</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="pushButton">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
     font: 11pt &quot;Tibetan Machine Uni&quot;;
     border-radius: 10px;       /* Bordas arredondadas */
     padding: 5px;              /* Espaço interno */
@@ -305,70 +372,13 @@ QPushButton:hover {
     background-color: rgba(225, 225, 225, 0.7); /* Cor mais escura ao passar o mouse */
 }
 </string>
-          </property>
-          <property name="text">
-           <string>Voltar</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Line" name="line_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="info_pag2_label">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>1500</width>
-            <height>150</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Tibetan Machine Uni</family>
-            <pointsize>30</pointsize>
-            <weight>50</weight>
-            <italic>false</italic>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 30pt &quot;Tibetan Machine Uni&quot;;
-border-radius: 10px;       /* Bordas arredondadas */
-padding: 5px;              /* Espaço interno */
-background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
-
-</string>
-          </property>
-          <property name="text">
-           <string>Aqui você pode visualizar os dados coletados pelos sensores:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Line" name="line_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGraphicsView" name="graphicsView"/>
+            </property>
+            <property name="text">
+             <string>Voltar</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -567,6 +577,106 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
            </widget>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_4">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QPushButton" name="pag_anterior2_pushButton">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    font: 11pt &quot;Tibetan Machine Uni&quot;;
+    border-radius: 10px;       /* Bordas arredondadas */
+    padding: 5px;              /* Espaço interno */
+    background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
+	border: 1px solid rgb(0,0,0);
+}
+
+/* Efeito de escurecimento ao passar o mouse */
+QPushButton:hover {
+    background-color: rgba(225, 225, 225, 0.7); /* Cor mais escura ao passar o mouse */
+}
+</string>
+          </property>
+          <property name="text">
+           <string>Voltar para menu principal</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="info_pag2_label">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>1500</width>
+            <height>150</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Tibetan Machine Uni</family>
+            <pointsize>30</pointsize>
+            <weight>50</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 30pt &quot;Tibetan Machine Uni&quot;;
+border-radius: 10px;       /* Bordas arredondadas */
+padding: 5px;              /* Espaço interno */
+background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
+
+</string>
+          </property>
+          <property name="text">
+           <string>Aqui você pode visualizar os dados coletados pelos sensores:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGraphicsView" name="graphicsView"/>
         </item>
        </layout>
       </widget>

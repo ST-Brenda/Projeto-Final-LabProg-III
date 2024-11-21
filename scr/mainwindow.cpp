@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     // Conecta o sinal de leitura de dados:
-    //connect(serial, &QSerialPort::readyRead, this, &MainWindow::readSerialData);
+    connect(serial, &QSerialPort::readyRead, this, &MainWindow::readSerialData);
 
 
 
@@ -158,7 +158,7 @@ void MainWindow::on_action_Reposit_rio_Git_do_Projeto_triggered()
 //ESCONDE ALGUMAS OPÇÕES DA MENU BAR EM PÁGINAS ESPECÍFICAS
 void MainWindow::atualizarMenu(int paginaAtual)
 {
-    if (paginaAtual != ui->stackedWidget->indexOf(ui->page_2) ) {
+    if (paginaAtual != ui->stackedWidget->indexOf(ui->page_4) ) {
         ui->actionSalvar_gr_ficos->setVisible(false);
     } else {
         ui->actionSalvar_gr_ficos->setVisible(true);
@@ -235,5 +235,49 @@ void MainWindow::on_ligarFAN_pushButton_clicked()
         ui->ligarFAN_pushButton->setText("Ligar");
         serial->write("2");  // Envia comando '2' para mudar o estado da ventilador novamente
     }
+}
+
+
+
+
+
+
+
+void MainWindow::readSerialData()
+{
+    // Adiciona os dados recebidos ao buffer
+    static QString buffer; // Buffer para acumular os dados
+    QByteArray data = serial->readAll();
+    buffer += QString::fromUtf8(data); // Converte os dados para string e acumula no buffer
+
+    // Verifica se há uma mensagem completa no buffer (terminador "\r\n")
+    int index;
+    while ((index = buffer.indexOf("\r\n")) != -1) {
+        QString mensagem = buffer.left(index); // Extrai a mensagem completa
+        buffer.remove(0, index + 2);           // Remove a mensagem processada do buffer
+
+        qDebug() << "Mensagem recebida:" << mensagem;
+
+        // Verifica se está na página 2 antes de processar a mensagem
+        if (ui->stackedWidget->currentWidget() == ui->page_2) {
+            // Processa a mensagem recebida
+            if (mensagem.contains("ACESSO_PERMITIDO")) {
+                ui->stackedWidget->setCurrentWidget(ui->page_4);
+                qDebug() << "Acesso permitido. Mudando para a página 4.";
+            }
+            else if (mensagem.contains("ACESSO_NEGADO")) {
+                ui->status_rfid_label->setText("ACESSO NEGADO!");
+                ui->stackedWidget->setCurrentWidget(ui->page_2);  // Fica na página 2 ou retorne para ela
+                qDebug() << "Acesso negado!";
+            }
+        } else {
+            qDebug() << "Não está na página 2. Aguardando para ler.";
+        }
+    }
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->page_1);    // Muda para a página 1
 }
 

@@ -45,6 +45,8 @@ private slots:
 
     void on_ligarFAN_pushButton_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMediaPlayer* player;
