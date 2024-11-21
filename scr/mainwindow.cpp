@@ -74,8 +74,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // PARA TOCAR MÚSICA QUANDO ABRIR O APP:
     player = new QMediaPlayer(this);
-    player->setMedia(QUrl("qrc:/audi/acoustic-folk-acoustic-guitar-138361.mp3"));
-    player->setVolume(20);  // Define o volume para 50% (opcional)
+    player->setMedia(QUrl("qrc:/audi/dust_in_the_wind.mp3"));
+    player->setVolume(50);  // Define o volume para 50%
     player->play();  // Inicia a reprodução da música
 
 

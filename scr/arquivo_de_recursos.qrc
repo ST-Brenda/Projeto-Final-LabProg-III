@@ -6,6 +6,6 @@
         <file>logo.png</file>
     </qresource>
     <qresource prefix="/audi">
-        <file>acoustic-folk-acoustic-guitar-138361.mp3</file>
+        <file>dust_in_the_wind.mp3</file>
     </qresource>
 </RCC>
