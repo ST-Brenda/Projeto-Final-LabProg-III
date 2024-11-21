@@ -78,7 +78,7 @@ QPushButton:hover {
        <locale language="Portuguese" country="Brazil"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_1">
        <layout class="QGridLayout" name="gridLayout">
@@ -616,6 +616,13 @@ QPushButton:hover {
           </property>
           <property name="text">
            <string>Voltar para menu principal</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="TESTE">
+          <property name="text">
+           <string>HNHE</string>
           </property>
          </widget>
         </item>

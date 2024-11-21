@@ -5,6 +5,11 @@
 #include <QMediaPlayer>
 #include <QtSerialPort>
 
+// Declaração antecipada de RFID
+class RFID;
+class grafico_getter;
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,9 +22,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    Ui::MainWindow *ui;
+    QMediaPlayer* player;
+    QSerialPort *serial;    // Objeto para manipular a porta serial
+    RFID *rfid;            // Objeto RFID
+    grafico_getter *grafico;  // Objeto grafico_getter
+
+
     // Método para obter acesso ao QSerialPort
     QSerialPort* getSerialPort();
-    void readSerialData();
 
 private slots:
 
@@ -47,9 +58,10 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_TESTE_clicked();
+
 private:
-    Ui::MainWindow *ui;
-    QMediaPlayer* player;
-    QSerialPort *serial;    // Objeto para manipular a porta serial
+
+
 };
 #endif // MAINWINDOW_H

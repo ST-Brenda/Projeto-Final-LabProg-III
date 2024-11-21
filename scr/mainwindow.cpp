@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "sobredialog.h"
+#include "rfid.h"
+#include "grafico_getter.h"
+
 
 #include <QPainter>
 #include <QPixmap>
@@ -17,14 +20,20 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , player(new QMediaPlayer(this))  // Inicializa player como membro da classe
+    , serial(new QSerialPort(this))  // Inicializa o QSerialPort
 {
     ui->setupUi(this);
 
-    // Inicializa a porta serial
-    serial = new QSerialPort(this);
+    // Inicializa o objeto RFID, passando o ponteiro da MainWindow
+    rfid = new RFID(this);
+
+    // Instanciando o objeto grafico_getter
+    grafico = new grafico_getter(this);
+
+
 
     // Configuração dos parâmetros da porta serial
-    serial->setPortName("/dev/ttyACM0");           // Substitua "COM3" pelo nome da porta no seu sistema
+    serial->setPortName("/dev/ttyACM0");
     serial->setBaudRate(QSerialPort::Baud9600);  // Taxa de transmissão
     serial->setDataBits(QSerialPort::Data8);
     serial->setParity(QSerialPort::NoParity);
@@ -38,8 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Conexão serial estabelecida!";
     }
 
-    // Conecta o sinal de leitura de dados:
-    connect(serial, &QSerialPort::readyRead, this, &MainWindow::readSerialData);
+//    // Conecta o sinal de leitura de dados:
+//    connect(serial, &QSerialPort::readyRead, this, &MainWindow::readSerialData);
 
 
 
@@ -62,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    //PARA ESCOLDER OPÇÕES A MENU BAR
+    //PARA ESCONDER OPÇÕES A MENU BAR
     connect(ui->stackedWidget, &QStackedWidget::currentChanged, this, &MainWindow::atualizarMenu);
 
     // Chamada inicial para configurar a visibilidade dos elementos do menu ao iniciar a aplicação
@@ -73,7 +82,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // PARA TOCAR MÚSICA QUANDO ABRIR O APP:
-    player = new QMediaPlayer(this);
     player->setMedia(QUrl("qrc:/audi/dust_in_the_wind.mp3"));
     player->setVolume(50);  // Define o volume para 50%
     player->play();  // Inicia a reprodução da música
@@ -86,12 +94,15 @@ MainWindow::MainWindow(QWidget *parent)
 //DESTRUTOR
 MainWindow::~MainWindow()
 {
+    delete ui;
+    delete player;
+
     //Para fechar a conecção serial:
     if (serial->isOpen()) {
         serial->close();
     }
 
-    delete ui;
+    delete serial;
 }
 
 
@@ -116,7 +127,13 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
 void MainWindow::on_visualizar_dados_pushButton_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(ui->page_2);  // Troca para a página 2, que irá exibir os dados
+    ui->stackedWidget->setCurrentWidget(ui->page_2);  // Troca para a página 2, que irá verificar com o RFID
+
+    // Conectando o sinal aqui, para inicializar somente quando o botão é criado
+    connect(serial, &QSerialPort::readyRead, rfid, &RFID::readSerialData);
+
+    // Chama a função readSerialData() do objeto RFID
+    rfid->readSerialData();
 }
 
 void MainWindow::on_pag_anterior2_pushButton_clicked()
@@ -243,41 +260,19 @@ void MainWindow::on_ligarFAN_pushButton_clicked()
 
 
 
-void MainWindow::readSerialData()
-{
-    // Adiciona os dados recebidos ao buffer
-    static QString buffer; // Buffer para acumular os dados
-    QByteArray data = serial->readAll();
-    buffer += QString::fromUtf8(data); // Converte os dados para string e acumula no buffer
-
-    // Verifica se há uma mensagem completa no buffer (terminador "\r\n")
-    int index;
-    while ((index = buffer.indexOf("\r\n")) != -1) {
-        QString mensagem = buffer.left(index); // Extrai a mensagem completa
-        buffer.remove(0, index + 2);           // Remove a mensagem processada do buffer
-
-        qDebug() << "Mensagem recebida:" << mensagem;
-
-        // Verifica se está na página 2 antes de processar a mensagem
-        if (ui->stackedWidget->currentWidget() == ui->page_2) {
-            // Processa a mensagem recebida
-            if (mensagem.contains("ACESSO_PERMITIDO")) {
-                ui->stackedWidget->setCurrentWidget(ui->page_4);
-                qDebug() << "Acesso permitido. Mudando para a página 4.";
-            }
-            else if (mensagem.contains("ACESSO_NEGADO")) {
-                ui->status_rfid_label->setText("ACESSO NEGADO!");
-                ui->stackedWidget->setCurrentWidget(ui->page_2);  // Fica na página 2 ou retorne para ela
-                qDebug() << "Acesso negado!";
-            }
-        } else {
-            qDebug() << "Não está na página 2. Aguardando para ler.";
-        }
-    }
-}
 
 void MainWindow::on_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->page_1);    // Muda para a página 1
+}
+
+
+void MainWindow::on_TESTE_clicked()
+{
+    // Conectando o sinal aqui, para inicializar somente quando o botão é criado
+    // Conecta o sinal de leitura de dados da porta serial com o slot
+    connect(serial, &QSerialPort::readyRead, grafico, &grafico_getter::le_dados_sensores);
+
+    grafico->le_dados_sensores();
 }
 
