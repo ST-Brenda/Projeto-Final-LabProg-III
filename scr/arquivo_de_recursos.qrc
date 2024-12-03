@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>1.jpeg</file>
+        <file>3.jpg</file>
+        <file>2.jpeg</file>
+        <file>logo.png</file>
+    </qresource>
+    <qresource prefix="/audi">
+        <file>dust_in_the_wind.mp3</file>
+    </qresource>
+</RCC>
