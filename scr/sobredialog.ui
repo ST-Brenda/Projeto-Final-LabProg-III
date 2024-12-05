@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>900</width>
-    <height>450</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>900</width>
-    <height>450</height>
+    <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>900</width>
-    <height>450</height>
+    <width>1000</width>
+    <height>550</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -31,30 +31,47 @@
      <x>10</x>
      <y>10</y>
      <width>881</width>
-     <height>431</height>
+     <height>481</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0" colspan="2">
+     <widget class="QLabel" name="texto_label">
+      <property name="font">
+       <font>
+        <family>Tibetan Machine Uni</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>
+Nosso sistema foi desenvolvido pensando em trazer maior comodidade e praticidade para o usuário, permitindo o monitoramento e o controle de diversos dispositivos domésticos de forma intuitiva e eficiente. Com ele, é possível monitorar a temperatura, os níveis de luz, e a qualidade do ar, além de controlar a iluminação e a temperatura, tudo a partir de uma interface simples e intuitiva. Nosso sistema também possui segurança garantida, para que somente pessoas autorizadas visualizem os dados coletados pelos sensores.
+A integração com sensores e dispositivos inteligentes garante uma ótima experiência, proporcionando mais conforto e segurança no ambiente residencial.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="indent">
+       <number>20</number>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QLabel" name="nome_label">
+      <property name="font">
+       <font>
+        <family>Tibetan Machine Uni</family>
+        <pointsize>19</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Sistema de Controle e Automatização Residencial</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="texto_label">
-      <property name="text">
-       <string>Nosso sistema foi desenvolvido pensando em trazer maior comodidade e praticidade para o usuário.</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
@@ -83,6 +100,23 @@
       </property>
       <property name="scaledContents">
        <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Tibetan Machine Uni</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Todos os direitos reservados. © 2024 Brenda Slongo Taca.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>

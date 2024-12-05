@@ -10,15 +10,13 @@ class MainWindow;
 
 
 
-class grafico_getter: public QObject  // Herda de QObject
+class grafico_getter
 {
-    Q_OBJECT  // Macro necessária para classes que herdam de QObject
-
 
 public:
     explicit grafico_getter(MainWindow *mainWindow);
     void le_dados_sensores();
-    void processarMensagemTemperatura(const QString& mensagem);
+    void processarDadosSensores(const QString& mensagem);
     void salvar_dados();
 
 private slots:

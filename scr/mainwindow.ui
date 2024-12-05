@@ -47,6 +47,9 @@
         <height>50</height>
        </size>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton {
     font: 11pt &quot;Tibetan Machine Uni&quot;;
@@ -78,7 +81,7 @@ QPushButton:hover {
        <locale language="Portuguese" country="Brazil"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_1">
        <layout class="QGridLayout" name="gridLayout">
@@ -276,18 +279,21 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="1" column="0">
          <layout class="QGridLayout" name="gridLayout_6">
+          <property name="horizontalSpacing">
+           <number>100</number>
+          </property>
           <item row="1" column="1" alignment="Qt::AlignVCenter">
            <widget class="QLabel" name="status_rfid_label">
             <property name="minimumSize">
              <size>
-              <width>50</width>
-              <height>0</height>
+              <width>0</width>
+              <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>16777215</width>
-              <height>50</height>
+              <width>500</width>
+              <height>16777215</height>
              </size>
             </property>
             <property name="font">
@@ -308,6 +314,12 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
             <property name="text">
              <string>AGUARDANDO LEITURA</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="0" alignment="Qt::AlignVCenter">
@@ -321,7 +333,7 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>50</height>
+              <height>16777215</height>
              </size>
             </property>
             <property name="font">
@@ -342,10 +354,13 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
             <property name="text">
              <string>PASSE SEU CARTÃO PARA LIBERAR O ACESSO!</string>
             </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="pag_anterior2_pushButton">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -600,7 +615,7 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */</strin
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="pag_anterior2_pushButton">
+         <widget class="QPushButton" name="pag_anterior4_pushButton">
           <property name="minimumSize">
            <size>
             <width>300</width>
@@ -680,18 +695,31 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
         </item>
         <item row="3" column="1" rowspan="3">
          <widget class="QTableWidget" name="dados_tableWidget">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
+          <property name="columnCount">
+           <number>4</number>
+          </property>
           <column>
            <property name="text">
-            <string>Horário</string>
+            <string>Hora</string>
            </property>
            <property name="font">
             <font>
              <family>Tibetan Machine Uni</family>
-             <weight>50</weight>
-             <bold>false</bold>
             </font>
            </property>
            <property name="background">
@@ -709,8 +737,40 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
            <property name="font">
             <font>
              <family>Tibetan Machine Uni</family>
-             <weight>50</weight>
-             <bold>false</bold>
+            </font>
+           </property>
+           <property name="background">
+            <color>
+             <red>222</red>
+             <green>221</green>
+             <blue>218</blue>
+            </color>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>CO2 no Ar</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>Tibetan Machine Uni</family>
+            </font>
+           </property>
+           <property name="background">
+            <color>
+             <red>222</red>
+             <green>221</green>
+             <blue>218</blue>
+            </color>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Luminosidade</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>Tibetan Machine Uni</family>
             </font>
            </property>
            <property name="background">
@@ -729,7 +789,11 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+  </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="minimumSize">
     <size>
@@ -779,6 +843,9 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
      <family>Tibetan Machine Uni</family>
     </font>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -797,6 +864,8 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
    <addaction name="action_Informacoes"/>
    <addaction name="separator"/>
    <addaction name="action_Reposit_rio_Git_do_Projeto"/>
+   <addaction name="separator"/>
+   <addaction name="actionFechar"/>
    <addaction name="separator"/>
    <addaction name="actionSalvar_dados"/>
   </widget>
@@ -821,7 +890,7 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
     <property name="title">
      <string>&amp;Opções</string>
     </property>
-    <addaction name="actionSalvar_dados"/>
+    <addaction name="actionFechar"/>
    </widget>
    <addaction name="menu_Op_es"/>
   </widget>
@@ -862,6 +931,20 @@ background-color: rgba(255, 255, 255, 0.6); /* Fundo semi-transparente */
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionFechar">
+   <property name="icon">
+    <iconset theme="window-close"/>
+   </property>
+   <property name="text">
+    <string>Sair</string>
+   </property>
+   <property name="toolTip">
+    <string>Fechar</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
    </property>
   </action>
  </widget>

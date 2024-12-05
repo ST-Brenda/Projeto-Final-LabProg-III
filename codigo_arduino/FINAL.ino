@@ -4,10 +4,16 @@
 const int RED = 2;    // Pino para a cor vermelha
 const int GREEN = 3;  // Pino para a cor verde
 const int BLUE = 4;   // Pino para a cor azul
+
 const int FAN = 5;    // Pino para a fan
+
 const int BUZZER = 6; // Pino para o buzzer
 
-const int SENSTEMP = A0; // Pino analógico para o sensor de temperatura (LM35, por exemplo)
+const int SENSTEMP = A0; // Pino analógico para o sensor de temperatura (LM35)
+
+const int SENSORMQ2 = A1; // Pino analógico para o sensor de gás (MQ-2)
+
+const int SENSORLUZ = A2; // Pino analógico para o sensor de luminosidade (LDR)
 
 // Configuração do módulo RFID
 #define RST_PIN 9   // Pino RST do RC522
@@ -42,7 +48,7 @@ void setup() {
   // Inicializa o módulo RFID
   SPI.begin();
   mfrc522.PCD_Init();
-  analogReference(INTERNAL);
+  analogReference(DEFAULT);  // Usa a tensão de alimentação do Arduino como referência
 }
 
 void loop() {
@@ -72,7 +78,7 @@ void loop() {
   }
 
   // Lógica para leitura do RFID
-  if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+  if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {   // Entra no if se um cartão RFID foi detectado e seu ID foi lido
     String codigoLido = "";
 
     // Obtém o UID do cartão
@@ -101,11 +107,11 @@ void loop() {
       setColor(0, 0, 0);   // Desliga a LED
     }
 
-    // Para leitura do cartão atual
+    // Para encerrar a operação de leitura do cartão atual
     mfrc522.PICC_HaltA();
   }
 
-  // Atualiza a temperatura a cada 20 segundos
+  // Atualiza os sensores a cada 5 segundos
   unsigned long tempoAtual = millis();
   if (tempoAtual - ultimoTempo >= 5000) {
     somaTemperaturas = 0;
@@ -120,14 +126,24 @@ void loop() {
     float mediaTemperatura = somaTemperaturas / leituras;
 
     // Exibe a média das leituras
-    Serial.print("T=");
+    Serial.print("T:");
     Serial.println(mediaTemperatura);
+    
+    // Lê o gás detectado pelo MQ-2
+    float gas = lerMQ2();    
+    Serial.print("CO2:");
+    Serial.println(gas);
+
+    // Lê a luminosidade
+    float luminosidade = lerLuminosidade();
+    Serial.print("L:");
+    Serial.println(luminosidade);
   }
 }
 
 // Função para verificar se o código lido está na lista de chaves permitidas
 bool verificaAcesso(String codigo) {
-  for (int i = 0; i < sizeof(chavesPermitidas) / sizeof(chavesPermitidas[0]); i++) {
+  for (int i = 0; i < sizeof(chavesPermitidas) / sizeof(chavesPermitidas[0]); i++) {    // Retorna o total de bytes da lista / pelos bytes de um único elemento, para calcular o número de chaves na lista
     if (codigo == chavesPermitidas[i]) {
       return true;
     }
@@ -145,10 +161,40 @@ void setColor(int redValue, int greenValue, int blueValue) {
 // Função para ler a temperatura do sensor LM35 (conectado ao pino A0)
 float lerTemperatura() {
   int valorSensor = analogRead(SENSTEMP); // Lê o valor do sensor no pino A0
-  return valorSensor;
-  //return map(valorSensor, 0, 1023, 0, 100);
-  //Converte o valor do sensor (10-bit) para uma temperatura em Celsius
   float voltage = valorSensor * (5.0 / 1023.0); // Converte para voltagem
   float temperatura = voltage * 100.0; // Para o LM35, 10mV por grau Celsius
   return temperatura;
+}
+
+// Função para ler o sensor de gás (MQ-2)
+float lerMQ2() {
+  int valorGas = analogRead(SENSORMQ2); // Lê o valor do sensor MQ-2
+  // Convertendo a leitura para uma estimativa em ppm
+  float gas = map(valorGas, 0, 1023, 0, 100); // // Mapeia o valor para um intervalo de 0 a 100%
+  // Ativar LED roxo e buzzer caso o gás ultrapasse 6000 ppm
+    if (gas > 60) {
+      setColor(128, 0, 128);  // Cor roxa na LED
+      digitalWrite(BUZZER, HIGH); // Liga o buzzer
+      delay(1000); // Deixa o buzzer ligado por 1 segundo
+      digitalWrite(BUZZER, LOW); // Desliga o buzzer
+      delay(500); // Deixa a LED acesa por 500ms
+      setColor(0, 0, 0); // Desliga a LED
+    }
+
+  return gas;
+}
+
+// Função para ler o sensor de luminosidade (LDR)
+float lerLuminosidade() {
+  int valorLDR = analogRead(SENSORLUZ); // Lê o valor do sensor LDR
+  float luminosidade = map(valorLDR, 0, 1023, 0, 100); // Mapeia o valor para um intervalo de 0 a 100%
+
+  // RESOLVI COMENTAR POIS O CÓDIGO JÁ PERMITE LIGAR OU NÃO A LED
+  // if (luminosidade <= 30) {
+  //   setColor(255, 255, 255); // Liga o LED
+  // } else {
+  //   setColor(0, 0, 0); // Desliga o LED 
+  // }
+
+  return luminosidade;
 }

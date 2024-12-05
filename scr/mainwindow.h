@@ -40,7 +40,7 @@ private slots:
 
     void on_controlar_eletronicos_pushButton_clicked();
 
-    void on_pag_anterior2_pushButton_clicked();
+    void on_pag_anterior4_pushButton_clicked();
 
     void on_pag_anterior3_pushButton_clicked();
 
@@ -56,25 +56,12 @@ private slots:
 
     void on_ligarFAN_pushButton_clicked();
 
-    void on_pushButton_clicked();
+    void on_pag_anterior2_pushButton_clicked();
 
     void on_actionSalvar_dados_triggered();
 
     void readSerialData();
 
-
-
-
-
-
-    //TESTE BARRA:
-//    void iniciarTemporizador();
-//    void atualizarBarraProgresso();
-//    void on_teste_barra_pushButton_clicked();
-
-private:
-    QTimer *timer; // Para gerenciar o temporizador
-    int progressoAtual; // Armazena o progresso atual
-
+    void on_actionFechar_triggered();
 };
 #endif // MAINWINDOW_H

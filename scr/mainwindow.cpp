@@ -20,15 +20,20 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    // Inicialização aqui é obrigatória para membros const, referências e classes sem construtor padrão:
     , player(new QMediaPlayer(this))  // Inicializa player como membro da classe
     , serial(new QSerialPort(this))  // Inicializa o QSerialPort
 {
     ui->setupUi(this);
 
-    // Inicializa o objeto RFID, passando o ponteiro da MainWindow
+
+
+    // MainWindow é a classe pai:
+
+    // Instância da classe RFID passando o ponteiro pra MainWindow
     rfid = new RFID(this);
 
-    // Instanciando o objeto grafico_getter
+    // Instância da classe grafico_getter passando o ponteiro pra MainWindow
     grafico = new grafico_getter(this);
 
 
@@ -87,15 +92,9 @@ MainWindow::MainWindow(QWidget *parent)
     // PARA TOCAR MÚSICA QUANDO ABRIR O APP:
     //DESCOMENTAR
      player->setMedia(QUrl("qrc:/audi/dust_in_the_wind.mp3"));
-     player->setVolume(100);  // Define o volume para 50%
+     player->setVolume(50);  // Define o volume para 50%
      player->play();  // Inicia a reprodução da música
 
-
-
-    //TESTANDO BARRA
-    // Configura o intervalo da barra de progresso
-//    ui->temporizador_progressBar->setRange(0, 100); // Valores de 0 a 100
-//    ui->temporizador_progressBar->setValue(0);     // Começa em 0
 
 }
 
@@ -138,13 +137,13 @@ void MainWindow::on_visualizar_dados_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->page_2);  // Troca para a página 2, que irá verificar com o RFID
 
-    // Chama a função readSerialData()
-    readSerialData();
+    // O método é chamado automaticamente quando há dados paara serem lidos via serial, então não adianta chamar
+    //readSerialData();
 }
 
 
 
-void MainWindow::on_pag_anterior2_pushButton_clicked()
+void MainWindow::on_pag_anterior4_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->page_1);  // Volta para a página 1
 }
@@ -153,7 +152,7 @@ void MainWindow::on_pag_anterior2_pushButton_clicked()
 
 void MainWindow::on_controlar_eletronicos_pushButton_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(ui->page_3);  // Troca para a página 4, que irá permitir controlar alguns equipamentos
+    ui->stackedWidget->setCurrentWidget(ui->page_3);  // Troca para a página 3, que irá permitir controlar alguns equipamentos
 }
 
 void MainWindow::on_pag_anterior3_pushButton_clicked()
@@ -178,9 +177,7 @@ void MainWindow::on_action_Reposit_rio_Git_do_Projeto_triggered()
 
 
 
-
-
-//ESCONDE ALGUMAS OPÇÕES DA MENU BAR EM PÁGINAS ESPECÍFICAS
+//ESCONDE A OPÇÃO DE SALVAR DADOS, DA MENU BAR, ENQUANTO O USUÁRIO NÃO ESTIVER NA PÁGINA 4
 void MainWindow::atualizarMenu(int paginaAtual)
 {
     if (paginaAtual != ui->stackedWidget->indexOf(ui->page_4) ) {
@@ -192,17 +189,14 @@ void MainWindow::atualizarMenu(int paginaAtual)
 }
 
 
-
-//INSTALAR:
+//INSTALAR PARA MÚSICA:
 //sudo apt-get install qt5-qtmultimedia
 //sudo apt-get install qtmultimedia5-dev
 //sudo apt-get install libqt5multimedia5 libqt5multimedia5-plugins libqt5multimediaquick5
 //sudo apt-get install gstreamer1.0-libav gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
 
 
-
 // PARA PAUSAR A MÚSICA:
-//DESCOMENTAR
  void MainWindow::on_parar_musica_pushButton_clicked()
  {
      QString playIcon = "▶️";
@@ -221,17 +215,9 @@ void MainWindow::atualizarMenu(int paginaAtual)
 
 
 
-
-
-
-
-
-
-
 //PARTE PARA CONTROLAR OS EQUIPAMENTOS:
-// Variáveis para armazenar os estados
+// Variável para armazenar o estado do LED
 bool ledEstado = false;
-bool fanEstado = false;
 
 void MainWindow::on_ligarLED_pushButton_clicked()
 {
@@ -241,13 +227,17 @@ void MainWindow::on_ligarLED_pushButton_clicked()
     // Muda o texto do botão com base no estado
     if (ledEstado) {
         ui->ligarLED_pushButton->setText("Desligar");
-        serial->write("1");  // Envia comando '1' para mudar o estado do LED
+        qDebug() << "Ligando LED";
+        serial->write("1");  // Envia comando '1' para o arduino mudar o estado do LED
     } else {
         ui->ligarLED_pushButton->setText("Ligar");
-        serial->write("1");  // Envia comando '1' para mudar o estado do LED novamente
+        qDebug() << "Desligando LED";
+        serial->write("1");  // Envia comando '1' para o arduino mudar o estado do LED novamente
     }
 }
 
+// Variável para armazenar o estado da FAN
+bool fanEstado = false;
 void MainWindow::on_ligarFAN_pushButton_clicked()
 {
     // Muda o estado da FAN
@@ -256,10 +246,12 @@ void MainWindow::on_ligarFAN_pushButton_clicked()
     // Muda o texto do botão com base no estado
     if (fanEstado) {
         ui->ligarFAN_pushButton->setText("Desligar");
-        serial->write("2");  // Envia comando '2' para mudar o estado da fan
+        qDebug() << "Ligando FAN";
+        serial->write("2");  // Envia comando '2' para mudar o estado da FAN
     } else {
         ui->ligarFAN_pushButton->setText("Ligar");
-        serial->write("2");  // Envia comando '2' para mudar o estado da ventilador novamente
+        qDebug() << "Desligando FAN";
+        serial->write("2");  // Envia comando '2' para mudar o estado da FAN novamente
     }
 }
 
@@ -267,37 +259,46 @@ void MainWindow::on_ligarFAN_pushButton_clicked()
 
 
 
-
-
-
-void MainWindow::on_pushButton_clicked()
+// Botão da página que aguarda a leitura do RFID
+void MainWindow::on_pag_anterior2_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->page_1);    // Muda para a página 1
 }
 
 
 
+// A FUNÇÃO ABAIXO MANDA OS DADOS RECEBIDOS POR SERIAL PARA AS RESPECTIVAS CLASSES:
+// Verifica se o cartão do RFID permite o acesso
+// E coleta e processa os dados pegos pelos sensores
 
-// MANDA OS DADOS RECEBIDOS POR SERIAL PARA AS RESPECTIVAS CLASSES:
+//O método "readSerialData()" é chamado automaticamente sempre que o sinal readyRead() do QSerialPort é emitido,
+//isso ocorre quando há dados disponíveis para leitura na porta serial.
 
 void MainWindow::readSerialData()
 {
     static QString buffer; // Buffer para acumular os dados
+    // Objeto que é usado para manipulação de bytes:
     QByteArray data = serial->readAll(); // Lê todos os dados da porta serial
+    // Converte os dados recebidos que estão em formato de bytes para uma string no formato UTF-8
     buffer += QString::fromUtf8(data);
 
-    int index;
-    while ((index = buffer.indexOf("\r\n")) != -1) {
-        QString mensagem = buffer.left(index); // Extrai uma mensagem completa
-        buffer.remove(0, index + 2);           // Remove a mensagem processada do buffer
 
-        qDebug() << "Mensagem recebida:" << mensagem;
+    int index;
+    // Método que procura pelo delimitador de mensagem (\r\n) no buffer
+    // Se index != -1, há uma mensagem completa no buffer e o loop é executado
+    while ((index = buffer.indexOf("\r\n")) != -1) {
+        QString mensagem = buffer.left(index); // Extrai uma mensagem completa pegando os caracteres à esquerda de "index"
+        buffer.remove(0, index + 2);           // Remove a mensagem do buffer excluindo os caracteres do início do buffer até (index + 2, pois "\r\n" tem 2 caracteres)
+
+        qDebug() << mensagem;
 
         // Encaminhe as mensagens para as funções específicas
         if (mensagem.startsWith("RFID:")) {
+            qDebug() << "Passando para RFID";
             rfid->processarMensagemRFID(mensagem);
-        } else if (mensagem.startsWith("T=")) {
-            grafico->processarMensagemTemperatura(mensagem);
+        } else if (mensagem.startsWith("T:") || mensagem.startsWith("L:") || mensagem.startsWith("CO2:")) {
+            //qDebug() << "Passando para LEITURA DE SENSORES";
+            grafico->processarDadosSensores(mensagem);
         } else {
             qDebug() << "Mensagem não reconhecida:" << mensagem;
         }
@@ -313,37 +314,9 @@ void MainWindow::on_actionSalvar_dados_triggered()
 
 
 
+void MainWindow::on_actionFechar_triggered()
+{
+    QApplication::quit(); // Finaliza a aplicação
+}
 
-
-
-
-//SÓ TESTANDO:
-
-//void MainWindow::iniciarTemporizador()
-//{
-//    progressoAtual = 0; // Variável membro da classe para controle do progresso
-//    ui->temporizador_progressBar->setValue(progressoAtual);
-
-//    timer = new QTimer(this); // Cria o temporizador
-//    connect(timer, &QTimer::timeout, this, &MainWindow::atualizarBarraProgresso);
-//    timer->start(100); // Atualiza a cada 100 ms
-//}
-
-//void MainWindow::atualizarBarraProgresso()
-//{
-//    progressoAtual += 5; // Incrementa o progresso
-//    ui->temporizador_progressBar->setValue(progressoAtual);
-
-//    if (progressoAtual >= 100) {
-//        timer->stop(); // Para o temporizador
-//        QMessageBox::information(this, "Progresso", "Tarefa concluída!");
-//    }
-//}
-
-
-//void MainWindow::on_teste_barra_pushButton_clicked()
-//{
-//    iniciarTemporizador(); // Inicia a barra de progresso
-
-//}
 

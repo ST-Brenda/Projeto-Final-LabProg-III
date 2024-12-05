@@ -10,102 +10,157 @@
 #include <QFile>
 #include <QTextStream>
 
-
+// Construtor da classe grafico_getter, recebe um ponteiro para a classe MainWindow (chamado "ponteiro_mainwindow"), para modificar os elementos da UI
 grafico_getter::grafico_getter(MainWindow *mainWindow) : ponteiro_mainwindow(mainWindow){
 
     //PARA AS COLUNAS DA TABELA:
 
-    ponteiro_mainwindow->ui->dados_tableWidget->setColumnWidth(0,200);
-    ponteiro_mainwindow->ui->dados_tableWidget->setColumnWidth(1,200);
-    ponteiro_mainwindow->ui->dados_tableWidget->setColumnWidth(2,200);
-    ponteiro_mainwindow->ui->dados_tableWidget->setColumnWidth(3,200);
+    // Configura as colunas da tabela para se que se ajustem automaticamente ao tamanho dela
+    QHeaderView* header = ponteiro_mainwindow->ui->dados_tableWidget->horizontalHeader();
+
+    // Faz com que as colunas preencham o espaço disponível
+    header->setSectionResizeMode(QHeaderView::Stretch);
 
 }
 
 
-//void grafico_getter::le_dados_sensores(){
-//    ponteiro_mainwindow->ui->parar_musica_pushButton->setText("SALVAR");
-
-//}
 
 
-void grafico_getter::processarMensagemTemperatura(const QString& mensagem)
+void grafico_getter::processarDadosSensores(const QString& mensagem)
 {
-    if (mensagem.contains("T=")) { // Verifica se a mensagem contém "TMP="
+    // Variáveis para armazenar os dados
+    static QString horarioAtual;
+    static double temperatura = 0;
+    static double CO2 = 0;
+    static double luminosidade = 0;
+
+    // Verifica se a mensagem contém "T:" e processa a temperatura
+    if (mensagem.contains("T:")) {
         bool ok;
-        QString tempStr = mensagem.split("T=")[1]; // Extrai o valor após "T="
-        double temperatura = tempStr.toDouble(&ok);
+        QString tempStr = mensagem.split("T:")[1];
+        temperatura = tempStr.toDouble(&ok);
+        if (!ok) {
+            qDebug() << "Erro ao converter os dados da temperatura!";
+            return;
+        }
+    }
 
-        if (ok) {
-            // Obtém o horário atual do sistema operacional
-            QString horarioAtual = QTime::currentTime().toString("HH:mm");
+    // Verifica se a mensagem contém "CO2:" e processa o CO2
+    if (mensagem.contains("CO2:")) {
+        bool ok;
+        QString SensCO2 = mensagem.split("CO2:")[1];
+        CO2 = SensCO2.toDouble(&ok);
+        if (!ok) {
+            qDebug() << "Erro ao converter os dados da Qualidade do Ar!";
+            return;
+        }
+    }
 
-            // Adiciona nova linha na tabela
+    // Verifica se a mensagem contém "L:" e processa a luminosidade
+    if (mensagem.contains("L:")) {
+        bool ok;
+        QString Lumin = mensagem.split("L:")[1];
+        luminosidade = Lumin.toDouble(&ok);
+        if (!ok) {
+            qDebug() << "Erro ao converter os dados da Luminosidade!";
+            return;
+        }
+    }
+
+    // Verifica se todos os dados estão completos (Temperatura, CO2, Luminosidade e Horário)
+    if (mensagem.contains("T:") || mensagem.contains("CO2:") || mensagem.contains("L:")) {
+        if (horarioAtual.isEmpty()) {
+            horarioAtual = QTime::currentTime().toString("HH:mm");
+        }
+
+        // Verifica se todos os dados estão prontos
+        if (!horarioAtual.isEmpty() && temperatura != 0 && CO2 != 0 && luminosidade != 0) {
+            // Se todos os dados estão completos, insere uma nova linha na tabela
             int currentRow = ponteiro_mainwindow->ui->dados_tableWidget->rowCount();
             ponteiro_mainwindow->ui->dados_tableWidget->insertRow(currentRow);
 
-            // Preenche a coluna "Horário" com o horário atual
+            // Preenche as células com os dados e usa um ponteiro para alinhar
             auto horario_item = new QTableWidgetItem(horarioAtual + 'h');
             ponteiro_mainwindow->ui->dados_tableWidget->setItem(currentRow, 0, horario_item);
-            horario_item->setTextAlignment(Qt::AlignHCenter| Qt::AlignVCenter);
+            horario_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
-            // Preenche a coluna "Temperatura" com o valor formatado
             auto temperatura_item = new QTableWidgetItem(QString("%1 °C").arg(temperatura));
             ponteiro_mainwindow->ui->dados_tableWidget->setItem(currentRow, 1, temperatura_item);
-            temperatura_item->setTextAlignment(Qt::AlignHCenter| Qt::AlignVCenter);
-            ponteiro_mainwindow->ui->dados_tableWidget->scrollToBottom();
-        }
-        else {
-            qDebug() << "Erro ao converter os dados da temperatura!";
+            temperatura_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+            auto CO2_item = new QTableWidgetItem(QString("%1 ppm").arg(CO2));
+            ponteiro_mainwindow->ui->dados_tableWidget->setItem(currentRow, 2, CO2_item);
+            CO2_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+            auto luminosidade_item = new QTableWidgetItem(QString("%1 Lux").arg(luminosidade));
+            ponteiro_mainwindow->ui->dados_tableWidget->setItem(currentRow, 3, luminosidade_item);
+            luminosidade_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+            // Limpa as variáveis para os próximos dados
+            horarioAtual.clear();
+            temperatura = 0;
+            CO2 = 0;
+            luminosidade = 0;
         }
     }
+
+    // Faz a rolagem para a última linha que foi gerada na tabela
+    ponteiro_mainwindow->ui->dados_tableWidget->scrollToBottom();
 }
+
+
+
+
+
 
 
 void grafico_getter::salvar_dados()
 {
     // Abre o diálogo para o usuário escolher onde salvar o arquivo
     auto fileName = QFileDialog::getSaveFileName(
-        ponteiro_mainwindow, "Salvar Dados", "Temperaturas.csv",
+        ponteiro_mainwindow, "Salvar Dados", "Dados_Coletados.csv",
         "Texto CSV (*.csv);;Todos os arquivos (*.*)");
 
     if (!fileName.isEmpty()) { // Verifica se o nome do arquivo não está vazio
-        if (!fileName.endsWith(".csv")) {
+        if (!fileName.endsWith(".csv")) {   // Se o nome do arquivo não termina com .csv, adiciona
             fileName += ".csv"; // Garante que a extensão seja ".csv"
         }
 
         QFile csv(fileName);
-        if (!csv.open(QIODevice::WriteOnly)) { // Verifica se o arquivo foi aberto
+        if (!csv.open(QIODevice::WriteOnly | QIODevice::Text)) { // Abre o arquivo para escrita
             QMessageBox::warning(ponteiro_mainwindow, "Erro", "Não foi possível salvar o arquivo.");
             return;
         }
 
         QTextStream csvText(&csv);
 
-        // Adiciona o cabeçalho ao arquivo CSV
-        csvText << "Horário;Temperatura\n";
+        // Adiciona um cabeçalho ao arquivo CSV
+        csvText << "Hora;Temperatura;CO2 no ar;Luminosidade\n";
 
         // Itera sobre as linhas da tabela para salvar os dados
         auto rowCount = ponteiro_mainwindow->ui->dados_tableWidget->rowCount();
         auto columnCount = ponteiro_mainwindow->ui->dados_tableWidget->columnCount();
 
-        for (int i = 0; i < rowCount; ++i) {
-            for (int j = 0; j < columnCount; ++j) {
-                auto item = ponteiro_mainwindow->ui->dados_tableWidget->item(i, j);
-                if (item) {
-                    csvText << item->text(); // Adiciona o texto do item
+            for (int i = 0; i < rowCount; ++i) {
+                bool primeiraColuna = true;
+                for (int j = 0; j < columnCount; ++j) {
+                    auto item = ponteiro_mainwindow->ui->dados_tableWidget->item(i, j);
+                    if (item) {
+                        if (!primeiraColuna) {
+                            csvText << ";"; // Adiciona delimitador entre os dados
+                        }
+                        csvText << item->text(); // Adiciona o texto do item na linha
+                        primeiraColuna = false; // A partir da segunda coluna, adiciona o delimitador
+                    }
                 }
-                if (j < columnCount - 1) {
-                    csvText << ";"; // Adiciona o delimitador
-                }
+                csvText << "\n"; // Nova linha no CSV após cada linha da tabela
             }
-            csvText << "\n"; // Nova linha no CSV
-        }
 
         csv.close();
         QMessageBox::information(ponteiro_mainwindow, "Sucesso", "Arquivo salvo com sucesso!");
     }
 }
+
 
 
 
